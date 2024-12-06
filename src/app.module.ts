@@ -7,6 +7,15 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [UsersModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    /*
+    // Use global guard
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    */
+  ],
 })
 export class AppModule {}
