@@ -23,4 +23,10 @@ export class UsersService {
       data,
     });
   }
+
+  async registerUserWithGoogle(data: CreateUserDto): Promise<User> {
+    return await this.prisma.user.create({
+      data,
+    });
+  }
 }

@@ -12,6 +12,8 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { UsersService } from '../users/users.service';
+import { GoogleOauthGuard } from './guards/google-oauth.guard';
+import { LoginMethod } from '@prisma/client';
 
 @Controller('auth')
 export class AuthController {
@@ -24,6 +26,36 @@ export class AuthController {
   @Post('login')
   async login(@Request() req: any) {
     return await this.authService.login(req.user);
+  }
+
+  // Login with google using the google strategy
+  @UseGuards(GoogleOauthGuard)
+  @Get('google')
+  async googleLogin() {}
+
+  // Redirect URL for google
+  @UseGuards(GoogleOauthGuard)
+  @Get('google/callback')
+  async googleLoginCallback(@Request() req: any) {
+    const provider = LoginMethod.GOOGLE;
+
+    try {
+      const { name, email, accessToken } = req.user;
+      const userExists = await this.usersService.findOneByEmail(email);
+      if (userExists) {
+        return await this.authService.login(userExists);
+      }
+
+      const user = await this.usersService.registerUserWithGoogle({
+        name,
+        email,
+        password: '',
+        provider,
+      });
+      return await this.authService.login(user);
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Post('register')
