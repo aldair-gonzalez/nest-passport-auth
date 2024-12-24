@@ -5,6 +5,9 @@ interface EnvVars {
   PORT: number;
   JWT_SECRET: string;
   JWT_EXPIRATION: string;
+  SESSION_GOOGLE_CLIENT_ID: string;
+  SESSION_GOOGLE_CLIENT_SECRET: string;
+  SESSION_GOOGLE_CALLBACK_URL: string;
 }
 
 const envsSchema = joi
@@ -12,6 +15,9 @@ const envsSchema = joi
     PORT: joi.number().required(),
     JWT_SECRET: joi.string().required(),
     JWT_EXPIRATION: joi.string().required(),
+    SESSION_GOOGLE_CLIENT_ID: joi.string().required(),
+    SESSION_GOOGLE_CLIENT_SECRET: joi.string().required(),
+    SESSION_GOOGLE_CALLBACK_URL: joi.string().required(),
   })
   .unknown(true);
 
@@ -28,5 +34,12 @@ export const envs = {
   jwt: {
     secret: envVars.JWT_SECRET,
     expiration: envVars.JWT_EXPIRATION,
+  },
+  session: {
+    google: {
+      clientID: envVars.SESSION_GOOGLE_CLIENT_ID,
+      clientSecret: envVars.SESSION_GOOGLE_CLIENT_SECRET,
+      callbackURL: envVars.SESSION_GOOGLE_CALLBACK_URL,
+    },
   },
 };
