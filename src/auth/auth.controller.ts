@@ -40,13 +40,13 @@ export class AuthController {
     const provider = LoginMethod.GOOGLE;
 
     try {
-      const { name, email, accessToken } = req.user;
+      const { name, email /* accessToken4 */ } = req.user;
       const userExists = await this.usersService.findOneByEmail(email);
       if (userExists) {
         return await this.authService.login(userExists);
       }
 
-      const user = await this.usersService.registerUserWithGoogle({
+      const user = await this.usersService.createUser({
         name,
         email,
         password: '',
