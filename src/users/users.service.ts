@@ -18,13 +18,9 @@ export class UsersService {
   }
 
   async createUser(data: CreateUserDto): Promise<User> {
-    data.password = await hashPass(data.password);
-    return await this.prisma.user.create({
-      data,
-    });
-  }
-
-  async registerUserWithGoogle(data: CreateUserDto): Promise<User> {
+    if (data.password) {
+      data.password = await hashPass(data.password);
+    }
     return await this.prisma.user.create({
       data,
     });
