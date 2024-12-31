@@ -22,10 +22,11 @@ export class GoogleOauthStrategy extends PassportStrategy(Strategy, 'google') {
     profile: any,
     cb: VerifyCallback,
   ) {
-    const { email, name } = profile._json;
+    const { email, name, email_verified } = profile._json;
     const user = {
       email,
       name,
+      email_verified,
       accessToken,
     };
     cb(null, user);

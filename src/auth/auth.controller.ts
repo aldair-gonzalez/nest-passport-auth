@@ -40,7 +40,7 @@ export class AuthController {
     const provider = LoginMethod.GOOGLE;
 
     try {
-      const { name, email /* accessToken4 */ } = req.user;
+      const { name, email, email_verified /* accessToken4 */ } = req.user;
       const userExists = await this.usersService.findOneByEmail(email);
       if (userExists) {
         return await this.authService.login(userExists);
@@ -49,6 +49,7 @@ export class AuthController {
       const user = await this.usersService.createUser({
         name,
         email,
+        email_verified,
         password: '',
         provider,
       });

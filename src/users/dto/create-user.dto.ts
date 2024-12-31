@@ -2,6 +2,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
 } from 'class-validator';
@@ -16,6 +17,9 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsEmail()
   email: string;
+
+  @IsOptional()
+  email_verified: boolean = false;
 
   @IsNotEmpty()
   @IsString()
